@@ -115,33 +115,76 @@
 %  
 
 
+
+
 %vlads = [holidayVlads{:,2}];
-resAmount = 7;
-queryFileNum = 20;
 
-searchFileVlad = holidayVlads{queryFileNum, 2};
+%% query performing
+% ------------------------------------------> query below
+%
 
-results = vl_alldist2(vlads, searchFileVlad);
+% % % queryFileNum = 319;
+% % % 
+% % % resAmount = 5;
+% % % imageColumns = 5;
+% % % 
+% % % if floor(resAmount/imageColumns) == 0
+% % %     imageColumns = resAmount;
+% % % end 
+% % % 
+% % % searchFileVlad = holidayVlads{queryFileNum, 2};
+% % % 
+% % % results = vl_alldist2(vlads, searchFileVlad);
+% % % 
+% % % [~, idxs] = sort(results);
+% % % 
+% % % resultIdxes = idxs(1:resAmount);
+% % % 
+% % % topResults = holidayVlads(resultIdxes, 1);
+% % % 
+% % % disp(['query file name = ' holidayVlads{queryFileNum, 1}]);
+% % % 
+% % % imageRows = ceil(resAmount/imageColumns);
+% % % 
+% % % for i = 1:resAmount
+% % %     %imshow(top5results{i});
+% % %     
+% % %     [x, map] = imread(topResults{i});
+% % % 
+% % %     subplot(imageRows, imageColumns, i);
+% % %     
+% % %     subimage(x);
+% % %     title([num2str(resultIdxes(i)) ' -> ' topResults{i}(end-9:end)]);
+% % %     axis off;
+% % % end
 
-[~, idxs] = sort(results);
 
-resultIdxes = idxs(1:resAmount);
+%% new image processing
+% codebook calculation
+% % % % searchImagePath = '/mnt/Images/Holidays/';
+% % % % codebookImagePath = '/mnt/Images/1/';
+% % % % codebookSize = 64;
+% % % % 
+% % % % tic;
+% % % % [codebook, assignments] = makeCodebook(codebookImagePath, codebookSize);
+% % % % toc;
+% % % % 
+% % % % searchFiles = getFilesOnly(searchImagePath);
+% % % % searchFilesAmount = numel(searchFiles);
+% % % % imageDataBase = cell(searchFilesAmount, 1);
+% % % % 
+% % % % tic;
+% % % % for i = 1:searchFilesAmount
+% % % %     imageDataBase{i} = getFileValdStruct( [searchImagePath searchFiles(i).name], []);
+% % % %     imageDataBase{i}.vlad = getVlad(imageDataBase{i}.fileName, codebook, assignments);
+% % % % end
+% % % % toc;
 
-topResults = holidayVlads(resultIdxes, 1);
 
-disp(['query file name = ' holidayVlads{queryFileNum, 1}]);
+queryPath = imageDataBase{1}.fileName;
+resultsAmount = 10;
 
-for i = 1:resAmount
-    %imshow(top5results{i});
-    
-    [x, map] = imread(topResults{i});
-
-    subplot(1, resAmount, i);
-    
-    subimage(x);
-    title([num2str(resultIdxes(i)) ' -> ' topResults{i}(end-9:end)]);
-    axis off;
-end
+searchImage( queryPath, imageDataBase, codebook, assignments, resultsAmount);
 
 
 

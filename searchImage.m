@@ -1,7 +1,7 @@
-function [ queryResultList ] = searchImage( queryPath, imageDataBase, codebook, assignment, resultsAmount)
+function [ queryResultList ] = searchImage( queryPath, imageDataBase, codebook, resultsAmount)
 % search for image with queryPath using accepted database
     % calculating query image VLAD
-    searchFileVlad = getVlad(queryPath, codebook, assignment);
+    searchFileVlad = getVlad(queryPath, codebook);
     
     % constructing VALD matrix using accepted data base
     temp   = [imageDataBase{:}]; 
@@ -36,7 +36,7 @@ function [ queryResultList ] = searchImage( queryPath, imageDataBase, codebook, 
 
     % result showing
     for i = 1:numel(resultIdxes);
-        [x, map] = imread(queryResultList{i});
+        [x, ~] = imread(queryResultList{i});
         subplot(imageRows, imageInColumn, i);
         subimage(x);
         % cut the file path
